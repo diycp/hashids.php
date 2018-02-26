@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Hashids\Math;
 
 /**
@@ -28,7 +30,7 @@ interface MathInterface
      *
      * @return string
      */
-    public function add($a, $b);
+    public function add(string $a, string $b): string;
 
     /**
      * Multiply two arbitrary-length integers.
@@ -38,7 +40,7 @@ interface MathInterface
      *
      * @return string
      */
-    public function multiply($a, $b);
+    public function multiply(string $a, string $b): string;
 
     /**
      * Divide two arbitrary-length integers.
@@ -48,7 +50,7 @@ interface MathInterface
      *
      * @return string
      */
-    public function divide($a, $b);
+    public function divide(string $a, string $b): string;
 
     /**
      * Compute arbitrary-length integer modulo.
@@ -58,7 +60,7 @@ interface MathInterface
      *
      * @return string
      */
-    public function mod($n, $d);
+    public function mod(string $n, string $d): string;
 
     /**
      * Compares two arbitrary-length integers.
@@ -68,7 +70,7 @@ interface MathInterface
      *
      * @return bool
      */
-    public function greaterThan($a, $b);
+    public function greaterThan(string $a, string $b): bool;
 
     /**
      * Converts arbitrary-length integer to PHP integer.
@@ -77,7 +79,7 @@ interface MathInterface
      *
      * @return int
      */
-    public function intval($a);
+    public function intval(string $a): int;
 
     /**
      * Converts arbitrary-length integer to PHP string.
@@ -86,14 +88,14 @@ interface MathInterface
      *
      * @return string
      */
-    public function strval($a);
+    public function strval(string $a): string;
 
     /**
      * Converts PHP integer to arbitrary-length integer.
      *
      * @param int $a
      *
-     * @return string
+     * @return int
      */
-    public function get($a);
+    public function get(int $a): int;
 }

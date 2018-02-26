@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Hashids;
 
 use Hashids\Math\Bc;
@@ -159,7 +161,7 @@ class Hashids implements HashidsInterface
      *
      * @return string
      */
-    public function encode(...$numbers)
+    public function encode(...$numbers): string
     {
         $ret = '';
 
@@ -184,7 +186,7 @@ class Hashids implements HashidsInterface
         $numbersHashInt = 0;
 
         foreach ($numbers as $i => $number) {
-            $numbersHashInt += $this->math->intval($this->math->mod($number, ($i + 100)));
+            $numbersHashInt += $this->math->intval($this->math->mod((string) $number, (string) ($i + 100)));
         }
 
         $lottery = $ret = $alphabet[$numbersHashInt % strlen($alphabet)];
@@ -234,7 +236,7 @@ class Hashids implements HashidsInterface
      *
      * @return array
      */
-    public function decode($hash)
+    public function decode(string $hash): array
     {
         $ret = [];
 
@@ -263,7 +265,7 @@ class Hashids implements HashidsInterface
             foreach ($hashArray as $subHash) {
                 $alphabet = $this->shuffle($alphabet, substr($lottery.$this->salt.$alphabet, 0, strlen($alphabet)));
                 $result = $this->unhash($subHash, $alphabet);
-                if ($this->math->greaterThan($result, PHP_INT_MAX)) {
+                if ($this->math->greaterThan($result, (string) PHP_INT_MAX)) {
                     $ret[] = $this->math->strval($result);
                 } else {
                     $ret[] = $this->math->intval($result);
@@ -285,7 +287,7 @@ class Hashids implements HashidsInterface
      *
      * @return string
      */
-    public function encodeHex($str)
+    public function encodeHex(string $str): string
     {
         if (!ctype_xdigit((string) $str)) {
             return '';
@@ -308,7 +310,7 @@ class Hashids implements HashidsInterface
      *
      * @return string
      */
-    public function decodeHex($hash)
+    public function decodeHex(string $hash): string
     {
         $ret = '';
         $numbers = $this->decode($hash);
@@ -328,7 +330,7 @@ class Hashids implements HashidsInterface
      *
      * @return string
      */
-    protected function shuffle($alphabet, $salt)
+    protected function shuffle(string $alphabet, string $salt): string
     {
         $key = $alphabet.' '.$salt;
 
@@ -365,7 +367,7 @@ class Hashids implements HashidsInterface
      *
      * @return string
      */
-    protected function hash($input, $alphabet)
+    protected function hash(string $input, string $alphabet): string
     {
         $hash = '';
         $alphabetLength = strlen($alphabet);
@@ -385,11 +387,11 @@ class Hashids implements HashidsInterface
      * @param string $input
      * @param string $alphabet
      *
-     * @return int
+     * @return string
      */
-    protected function unhash($input, $alphabet)
+    protected function unhash(string $input, string $alphabet): string
     {
-        $number = 0;
+        $number = '0';
         $inputLength = strlen($input);
 
         if ($inputLength && $alphabet) {
